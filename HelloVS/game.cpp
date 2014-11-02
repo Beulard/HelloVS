@@ -53,23 +53,10 @@ namespace game {
 
 	void run() {
 		resource::add_image_png("data/image/yellow.png");
-// 		resource::load_image_png("data/image/colors.png");
-// 		resource::load_image_png("data/image/colors.png");
-// 		resource::load_image_png("data/image/colors.png");
-// 		resource::load_image_png("data/image/colors.png");
-// 		resource::load_image_png("data/image/colors.png");
+ 		resource::add_image_png("data/image/colors.png");
+ 		resource::add_image_png("data/image/colors2.png");
+ 		resource::add_image_png("data/image/colors3.png");
 
-		struct s {
-			int x;
-			float y;
-			unsigned char z;
-		};
-// 		array::array a = array::create(sizeof(s), 2);
-// 		array::zero_all(&a);
-// 		s* s1 = (s*)array::at(&a, 1);
-// 		s* s0 = (s*)array::at(&a, 0);
-// 		s1->z = 24;
-// 		array::destroy(&a);
 
 		while(!exit) {
 			while(SDL_PollEvent(&e) != 0) {
@@ -81,11 +68,15 @@ namespace game {
 			case loading:
 				if(!resource::is_loading())
 					resource::loading_start();
-				//else
+
 				resource::loading_update();
+
+				if(resource::is_done_loading())
+					gamestate = state::main_menu;
 				break;
 
 			case main_menu:
+				gamestate = state::gameplay;
 				break;
 
 			case gameplay:

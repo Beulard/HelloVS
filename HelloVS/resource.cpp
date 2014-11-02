@@ -30,13 +30,9 @@ namespace resource {
 		return thread;
 	}
 
+	static bool done = false;
 	static bool loading = false;
 	static std::vector<std::string> image_files;
-	//std::vector<image_loader_thread> image_loader_threads;
-	//pthread_cond_t cond;
-	//pthread_mutex_t mutex;
-	//bool done = false;
-	//bool working = false;
 	static array::array image_threads;
 
 
@@ -71,8 +67,10 @@ namespace resource {
 	}
 
 	void loading_update() {
+		static u32 done_image_threads = 0;
 		for(u32 i = 0; i < get_item_count(&image_threads); ++i) {
 			image_loader_thread* thread = (image_loader_thread*)array::at(&image_threads, i);
+			//	Check if the thread is done working
 			if(pthread_mutex_trylock(&thread->mutex) == 0) {
 				if(thread->working) {
 					pthread_mutex_unlock(&thread->mutex);
@@ -80,6 +78,8 @@ namespace resource {
 					pthread_join(thread->id, (void**)&data);
 					printf("joined thread!\n");
 					thread->working = false;
+					//	Add 1 to the number of threads that are done
+					done_image_threads++;
 				}
 				else {
 					pthread_mutex_unlock(&thread->mutex);
@@ -87,12 +87,20 @@ namespace resource {
 				}
 			}
 		}
+		if(done_image_threads >= get_item_count(&image_threads)) {
+			printf("Images all done !");
+			done = true;
+		}
 
 		printf("main thread waiting...\n");
 	}
 
 	bool is_loading() {
 		return loading;
+	}
+
+	bool is_done_loading() {
+		return done;
 	}
 
 	void destroy() {

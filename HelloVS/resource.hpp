@@ -5,5 +5,7 @@ namespace resource {
 	void loading_start();
 	void loading_update();
 	bool is_loading();
+	bool is_done_loading();
 	void destroy();
+
 }
