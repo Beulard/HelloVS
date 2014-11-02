@@ -87,12 +87,14 @@ namespace resource {
 				}
 			}
 		}
+
+		printf("main thread waiting...\n");
+
 		if(done_image_threads >= get_item_count(&image_threads)) {
 			printf("Images all done !");
 			done = true;
 		}
 
-		printf("main thread waiting...\n");
 	}
 
 	bool is_loading() {
