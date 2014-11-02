@@ -5,6 +5,9 @@
 #include "game.hpp"
 #include "resource.hpp"
 
+//	TODO Remove
+#include "array.hpp"
+
 namespace game {
 
 	enum state {
@@ -56,6 +59,18 @@ namespace game {
 // 		resource::load_image_png("data/image/colors.png");
 // 		resource::load_image_png("data/image/colors.png");
 
+		struct s {
+			int x;
+			float y;
+			unsigned char z;
+		};
+// 		array::array a = array::create(sizeof(s), 2);
+// 		array::zero_all(&a);
+// 		s* s1 = (s*)array::at(&a, 1);
+// 		s* s0 = (s*)array::at(&a, 0);
+// 		s1->z = 24;
+// 		array::destroy(&a);
+
 		while(!exit) {
 			while(SDL_PollEvent(&e) != 0) {
 				if(e.type == SDL_QUIT)
@@ -67,7 +82,7 @@ namespace game {
 				if(!resource::is_loading())
 					resource::loading_start();
 				//else
-					resource::loading_update();
+				resource::loading_update();
 				break;
 
 			case main_menu:
@@ -97,6 +112,7 @@ namespace game {
 	}
 
 	void destroy() {
+		resource::destroy();
 		SDL_DestroyWindow(window);
 		SDL_Quit();
 	}
