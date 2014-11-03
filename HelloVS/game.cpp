@@ -56,6 +56,8 @@ namespace game {
  		resource::add_image_png("data/image/colors.png");
  		resource::add_image_png("data/image/colors2.png");
  		resource::add_image_png("data/image/colors3.png");
+		resource::add_shader("data/shader/sprite.vs");
+		resource::add_shader("data/shader/sprite.fs");
 
 
 		while(!exit) {
